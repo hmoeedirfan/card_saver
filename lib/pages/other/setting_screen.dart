@@ -45,7 +45,10 @@ class _SettingScreenState extends State<SettingScreen> {
       ),
       // Body Content
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 14),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 8,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

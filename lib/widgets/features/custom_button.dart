@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../../pages/home.dart';
 import '../../pages/other/account_screen.dart';
-
 
 // ignore: must_be_immutable, camel_case_types
 class customButton extends StatelessWidget {
@@ -22,6 +20,7 @@ class customButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(50),
         border: Border.all(
           width: .5,
+          color: Theme.of(context).colorScheme.primary,
         ),
       ),
       child: Row(
@@ -45,10 +44,22 @@ class customButton extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Text(
-            'Tap to add $text \naccount details',
-            style: const TextStyle(
-              fontSize: 20,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return AccountScreen(
+                    currentAccount: accountType,
+                  );
+                }),
+              );
+            },
+            child: Text(
+              'Tap to add $text \naccount details',
+              style: const TextStyle(
+                fontSize: 20,
+              ),
             ),
           ),
         ],

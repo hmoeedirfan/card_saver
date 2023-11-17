@@ -363,16 +363,7 @@ class editIcons extends StatelessWidget {
     return Row(
       children: [
         IconButton(
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) {
-                return UpdateScreen(
-                  currentAccount: currentaccountType,
-                );
-              }),
-            );
-          },
+          onPressed: () {},
           icon: Icon(
             Icons.edit,
             color: Theme.of(context).colorScheme.primary,

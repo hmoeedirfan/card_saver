@@ -16,6 +16,7 @@ dependencies:
   flutter_svg: ^2.0.9
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  material_dialogs: ^1.1.4
   path_provider: ^2.1.1
   provider: ^6.1.1
   shared_preferences: ^2.2.2
@@ -33,6 +34,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/icons/ALBarakh.svg
+    - assets/icons/
 
 flutter_launcher_icons:
   image_path: "assets/images/appicon.png"

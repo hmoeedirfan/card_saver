@@ -55,7 +55,7 @@ class _CustomSwitchState extends State<CustomSwitch>
               borderRadius: BorderRadius.circular(24.0),
               color: _circleAnimation!.value == Alignment.centerLeft
                   ? Colors.grey
-                  : Colors.blue,
+                  : Colors.grey,
             ),
             child: Padding(
               padding: const EdgeInsets.only(
@@ -67,16 +67,18 @@ class _CustomSwitchState extends State<CustomSwitch>
               child: Container(
                 alignment: widget.value
                     ? ((Directionality.of(context) == TextDirection.rtl)
-                        ? Alignment.centerRight
-                        : Alignment.centerLeft)
-                    : ((Directionality.of(context) == TextDirection.rtl)
                         ? Alignment.centerLeft
-                        : Alignment.centerRight),
+                        : Alignment.centerRight)
+                    : ((Directionality.of(context) == TextDirection.rtl)
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft),
                 child: Container(
                   width: 26.0,
                   height: 20.0,
                   decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.white),
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
