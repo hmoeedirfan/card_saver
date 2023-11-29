@@ -34,8 +34,7 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/icons/ALBarakh.svg
-    - assets/icons/
+    - assets/banks/
 
 flutter_launcher_icons:
   image_path: "assets/images/appicon.png"
