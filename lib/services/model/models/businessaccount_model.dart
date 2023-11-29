@@ -1,9 +1,8 @@
-
 import 'package:hive/hive.dart';
 part 'businessaccount_model.g.dart';
 
 @HiveType(typeId: 1)
-class BusinessAccountModel extends HiveObject{
+class BusinessAccountModel extends HiveObject {
   @HiveField(0)
   String name;
   @HiveField(1)
@@ -22,4 +21,8 @@ class BusinessAccountModel extends HiveObject{
     this.swiftCode,
     this.branchCode,
   );
+  @override
+  String toString() {
+    return 'Name: $name\n, Bank Account: $bankAccount\n, Iban Number: $ibanNumber\n, Swift Code: $swiftCode\n, Branch Code: $branchCode\n';
+  }
 }
