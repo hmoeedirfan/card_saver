@@ -1,13 +1,16 @@
-// ignore_for_file: camel_case_types, constant_identifier_names
+// ignore_for_file: camel_case_types, constant_identifier_names, use_build_context_synchronously, avoid_print
 
-import 'package:card_saver/pages/other/update_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:material_dialogs/material_dialogs.dart';
+import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import '../services/model/boxes/box.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../services/model/models/personalaccount_model.dart';
 import '../widgets/features/custom_button.dart';
 import 'other/account_screen.dart';
 import 'other/setting_screen.dart';
+import 'package:flutter/services.dart';
 
 enum Account {
   Personal,
@@ -30,6 +33,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var personalBox = Boxes.getPersonalData();
+  var businessBox = Boxes.getBusinessData();
   bool isAppBarToggled = true;
 
   @override
@@ -204,12 +209,19 @@ class _HomeState extends State<Home> {
                                     ),
                                     isAppBarToggled
                                         ? IconButton(
-                                            onPressed: () {
+                                            onPressed: () async {
+                                              await Clipboard.setData(
+                                                ClipboardData(
+                                                  text: data[index].toString(),
+                                                ),
+                                              );
+                                              print(data[index].toString());
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 const SnackBar(
                                                   content: Text(
-                                                      "Copied to your clipboard !"),
+                                                    "Copied to your clipboard !",
+                                                  ),
                                                 ),
                                               );
                                             },
@@ -218,9 +230,54 @@ class _HomeState extends State<Home> {
                                               size: 20,
                                             ),
                                           )
-                                        : const editIcons(
-                                            currentaccountType:
-                                                Account.Personal,
+                                        : IconButton(
+                                            onPressed: () {
+                                              // TODO
+                                              Dialogs.materialDialog(
+                                                  msg:
+                                                      'Are you sure ? you can\'t undo this action',
+                                                  title: "Delete",
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .background,
+                                                  context: context,
+                                                  actions: [
+                                                    IconsOutlineButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      text: 'Cancel',
+                                                      iconData:
+                                                          Icons.cancel_outlined,
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                      iconColor: Colors.white,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    IconsOutlineButton(
+                                                      onPressed: () {
+                                                        personalBox
+                                                            .deleteAt(index);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      text: 'Delete',
+                                                      iconData: Icons.delete,
+                                                      color: Colors.red,
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                      iconColor: Colors.white,
+                                                    ),
+                                                  ]);
+                                            },
+                                            icon: const Icon(
+                                              Icons.close,
+                                              color: Colors.red,
+                                              size: 20,
+                                            ),
                                           ),
                                   ],
                                 ),
@@ -309,10 +366,76 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                     isAppBarToggled
-                                        ? const copyIcon()
-                                        : const editIcons(
-                                            currentaccountType:
-                                                Account.Business,
+                                        ? IconButton(
+                                            onPressed: () async {
+                                              await Clipboard.setData(
+                                                ClipboardData(
+                                                  text: data[index].toString(),
+                                                ),
+                                              );
+                                              print(data[index].toString());
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                    "Copied to your clipboard !",
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            icon: const Icon(
+                                              Icons.copy,
+                                              size: 20,
+                                            ),
+                                          )
+                                        : IconButton(
+                                            onPressed: () {
+                                              // TODO
+                                              Dialogs.materialDialog(
+                                                  msg:
+                                                      'Are you sure ? you can\'t undo this action',
+                                                  title: "Delete",
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                  context: context,
+                                                  actions: [
+                                                    IconsOutlineButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      text: 'Cancel',
+                                                      iconData:
+                                                          Icons.cancel_outlined,
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                      iconColor: Colors.white,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    IconsButton(
+                                                      onPressed: () {
+                                                        businessBox
+                                                            .deleteAt(index);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      text: 'Delete',
+                                                      iconData: Icons.delete,
+                                                      color: Colors.red,
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                      iconColor: Colors.white,
+                                                    ),
+                                                  ]);
+                                            },
+                                            icon: const Icon(
+                                              Icons.close,
+                                              color: Colors.red,
+                                              size: 20,
+                                            ),
                                           ),
                                   ],
                                 ),
@@ -331,28 +454,6 @@ class _HomeState extends State<Home> {
   }
 }
 
-// Copy Icon
-class copyIcon extends StatelessWidget {
-  const copyIcon({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Copied to your clipboard !"),
-          ),
-        );
-      },
-      icon: const Icon(
-        Icons.copy,
-        size: 20,
-      ),
-    );
-  }
-}
-
 // Edit Icons
 class editIcons extends StatelessWidget {
   final Account currentaccountType;
@@ -363,23 +464,31 @@ class editIcons extends StatelessWidget {
     return Row(
       children: [
         IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.edit,
-            color: Theme.of(context).colorScheme.primary,
-            size: 20,
-          ),
-        ),
-        IconButton(
           onPressed: () {
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(builder: (context) {
-            //     return DeleteScreen(
-            //       accountType: currentaccountType,
-            //     );
-            //   }),
-            // );
+            Dialogs.materialDialog(
+                msg: 'Are you sure ? you can\'t undo this action',
+                title: "Delete",
+                color: Colors.white,
+                context: context,
+                actions: [
+                  IconsOutlineButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    text: 'Cancel',
+                    iconData: Icons.cancel_outlined,
+                    textStyle: const TextStyle(color: Colors.grey),
+                    iconColor: Colors.grey,
+                  ),
+                  IconsButton(
+                    onPressed: () {},
+                    text: 'Delete',
+                    iconData: Icons.delete,
+                    color: Colors.red,
+                    textStyle: const TextStyle(color: Colors.white),
+                    iconColor: Colors.white,
+                  ),
+                ]);
           },
           icon: const Icon(
             Icons.close,
