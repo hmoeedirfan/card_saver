@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "244318693958",
+    "project_id": "burhanxsalam-apps",
+    "storage_bucket": "burhanxsalam-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244318693958:android:ee17aa332cdab860e73847",
+        "android_client_info": {
+          "package_name": "com.example.card_saver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwUxnqr68qsUYo7T8vYSueEED518H_Dok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

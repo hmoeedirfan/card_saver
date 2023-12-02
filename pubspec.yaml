@@ -11,6 +11,8 @@ environment:
 dependencies:
   csc_picker: ^0.2.7
   cupertino_icons: ^1.0.2
+  firebase_core: ^2.24.0
+  firebase_crashlytics: ^3.4.6
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.9
