@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import '../../services/model/boxes/box.dart';
@@ -6,19 +8,23 @@ import '../../services/model/models/personalaccount_model.dart';
 import '../../widgets/features/custom_textfield.dart';
 import '../../widgets/features/login_button.dart';
 import '../home.dart';
+import 'setting_screen.dart';
 
-class UpdateScreen extends StatefulWidget {
+class UpdatePersonalScreen extends StatefulWidget {
   final Account currentAccount;
+  final PersonalAccountModel personalData;
 
-  const UpdateScreen({super.key, required this.currentAccount});
+  const UpdatePersonalScreen(
+      {super.key, required this.currentAccount, required this.personalData});
 
   @override
-  State<UpdateScreen> createState() => _UpdateScreenState();
+  State<UpdatePersonalScreen> createState() => _UpdatePersonalScreenState();
 }
 
-class _UpdateScreenState extends State<UpdateScreen> {
+class _UpdatePersonalScreenState extends State<UpdatePersonalScreen> {
   String countryValue = "";
   String? mySelection;
+  final formKey = GlobalKey<FormState>();
 
   // List of Banks json
   List<Map> bankJson = [
@@ -160,16 +166,36 @@ class _UpdateScreenState extends State<UpdateScreen> {
   ];
 
   // List of Controllers
-  final name = TextEditingController();
-  final bankAccount = TextEditingController();
-  final ibanNumber = TextEditingController();
-  final swiftCode = TextEditingController();
-  final branchCode = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  late final TextEditingController name;
+  late final TextEditingController bankAccount;
+  late final TextEditingController ibanNumber;
+  late final TextEditingController swiftCode;
+  late final TextEditingController branchCode;
+
+  @override
+  void initState() {
+    super.initState();
+    name = TextEditingController(
+      text: widget.personalData.name.toString(),
+    );
+    bankAccount = TextEditingController(
+      text: widget.personalData.bankAccount.toString(),
+    );
+    ibanNumber = TextEditingController(
+      text: widget.personalData.ibanNumber.toString(),
+    );
+    swiftCode = TextEditingController(
+      text: widget.personalData.swiftCode.toString(),
+    );
+    branchCode = TextEditingController(
+      text: widget.personalData.branchCode.toString(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.onBackground,
       // Appbar
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -181,10 +207,26 @@ class _UpdateScreenState extends State<UpdateScreen> {
               : 'assets/images/appbar_logo.png',
           scale: 4,
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: ((context) => const SettingScreen()),
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.menu,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          const SizedBox(width: 10),
+        ],
       ),
       // Body
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 50, 16, 0),
+        padding: const EdgeInsets.fromLTRB(16, 80, 16, 0),
         child: SingleChildScrollView(
           child: Form(
             key: formKey,
@@ -194,15 +236,22 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 CustomTextField(
                   controller: name,
                   text: "Account Holder's Name",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Enter your details";
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
-                // Country Picker
+                // ====================================== TODO Country Picker
                 CSCPicker(
                   flagState: CountryFlag.ENABLE,
                   disabledDropdownDecoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(30)),
                     color: Colors.transparent,
                     border: Border.all(
-                      color: Colors.black54,
+                      color: Colors.grey,
                       width: 1,
                     ),
                   ),
@@ -210,7 +259,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     borderRadius: const BorderRadius.all(Radius.circular(30)),
                     color: Colors.transparent,
                     border: Border.all(
-                      color: Colors.black54,
+                      color: Colors.grey,
                       width: 1,
                     ),
                   ),
@@ -231,12 +280,17 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 const SizedBox(height: 10),
                 // ====================================== Bank Dropdown
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 2,
-                    vertical: 10,
+                  padding: const EdgeInsets.only(
+                    right: 4,
+                    top: 12,
+                    bottom: 12,
+                    left: 2,
                   ),
                   decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.grey),
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Row(
@@ -250,6 +304,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               isDense: true,
                               hint: const Text('Select your Bank'),
                               value: mySelection,
+                              icon: const Icon(
+                                Icons.expand_more_sharp,
+                                textDirection: TextDirection.rtl,
+                              ),
                               onChanged: (newValue) {
                                 setState(() {
                                   mySelection = newValue;
@@ -265,12 +323,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                     children: [
                                       Image.asset(
                                         map["image"],
-                                        width: 25,
+                                        width: 30,
                                       ),
                                       Container(
                                         margin: const EdgeInsets.only(left: 10),
                                         child: Text(
                                           map["name"],
+                                          style: const TextStyle(fontSize: 18),
                                         ),
                                       ),
                                     ],
@@ -288,64 +347,96 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 CustomTextField(
                   controller: bankAccount,
                   text: "Account Number",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Enter your details";
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 CustomTextField(
                   controller: ibanNumber,
                   text: "IBAN Number",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return null;
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 CustomTextField(
                   controller: swiftCode,
                   text: "Swift/BIC Code",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return null;
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 CustomTextField(
                   controller: branchCode,
                   text: "Branch Code",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return null;
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 // Buttons
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (formKey.currentState!.validate()) {
-                          if (widget.currentAccount == Account.Personal) {
-                            final data = PersonalAccountModel(
-                              name.text,
-                              bankAccount.text,
-                              ibanNumber.text,
-                              swiftCode.text,
-                              branchCode.text,
-                            );
-                            final box = Boxes.getPersonalData();
-                            box.add(data);
-                            data.save();
-                          } else {
-                            final data = BusinessAccountModel(
-                              name.text,
-                              bankAccount.text,
-                              ibanNumber.text,
-                              swiftCode.text,
-                              branchCode.text,
-                            );
-                            final box = Boxes.getBusinessData();
-                            box.add(data);
-                            data.save();
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          if (formKey.currentState!.validate()) {
+                            if (widget.currentAccount == Account.Personal) {
+                              final data = PersonalAccountModel(
+                                name.text,
+                                bankAccount.text,
+                                ibanNumber.text,
+                                swiftCode.text,
+                                branchCode.text,
+                              );
+                              final box = Boxes.getPersonalData();
+                              box.putAt(0, data);
+                              data.save();
+                            } else {
+                              final data = BusinessAccountModel(
+                                name.text,
+                                bankAccount.text,
+                                ibanNumber.text,
+                                swiftCode.text,
+                                branchCode.text,
+                              );
+                              final box = Boxes.getBusinessData();
+                              box.putAt(0, data);
+                              data.save();
+                            }
+                            Navigator.of(context).pop();
                           }
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      child: loginButton(
-                        text: 'Save',
-                        color: Colors.blue,
+                        },
+                        child: loginButton(
+                          text: 'Save',
+                          color: Colors.blue,
+                        ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: loginButton(
-                        text: 'Go Back',
-                        color: Colors.black,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: loginButton(
+                          text: 'Go Back',
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ],

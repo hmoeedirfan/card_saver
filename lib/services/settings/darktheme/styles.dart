@@ -25,8 +25,10 @@ class Styles {
           ? const ColorScheme.dark(
               background: Colors.black,
               primary: Colors.white,
+              onBackground: Color(0xff161616),
             )
           : const ColorScheme.light(
+              onBackground: Colors.white,
               background: Colors.white,
               primary: Colors.black,
             ),

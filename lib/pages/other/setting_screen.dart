@@ -16,6 +16,8 @@ class _SettingScreenState extends State<SettingScreen> {
     final themeChange = Provider.of<ThemeChanger>(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.onBackground,
+
       // Appbar
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -44,88 +46,90 @@ class _SettingScreenState extends State<SettingScreen> {
         ],
       ),
       // Body Content
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 8,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Settings',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 8,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Settings',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                ),
               ),
-            ),
-            const SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.only(right: 10, left: 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Dark Mode',
-                    style: TextStyle(
-                      fontSize: 20,
+              const SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.only(right: 10, left: 2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Dark Mode',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                  // Dark Mode Button
-                  CustomSwitch(
-                    value: themeChange.darkTheme,
-                    onChanged: (bool value) {
-                      themeChange.darkTheme = value;
-                    },
-                  ),
-                ],
+                    // Dark Mode Button
+                    CustomSwitch(
+                      value: themeChange.darkTheme,
+                      onChanged: (bool value) {
+                        themeChange.darkTheme = value;
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 60),
-            const Text(
-              'Important Links',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
+              const SizedBox(height: 60),
+              const Text(
+                'Important Links',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                ),
               ),
-            ),
-            const SizedBox(height: 40),
-            const Text(
-              'Privacy policy',
-              style: TextStyle(
-                fontSize: 20,
+              const SizedBox(height: 40),
+              const Text(
+                'Privacy policy',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
-            ),
-            const SizedBox(height: 14),
-            const Text(
-              'Terms and conditions',
-              style: TextStyle(
-                fontSize: 20,
+              const SizedBox(height: 14),
+              const Text(
+                'Terms and conditions',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
-            ),
-            const SizedBox(height: 14),
-            const Text(
-              'Share app with friends',
-              style: TextStyle(
-                fontSize: 20,
+              const SizedBox(height: 14),
+              const Text(
+                'Share app with friends',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
-            ),
-            const SizedBox(height: 14),
-            const Text(
-              'Rate or Review app',
-              style: TextStyle(
-                fontSize: 20,
+              const SizedBox(height: 14),
+              const Text(
+                'Rate or Review app',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
-            ),
-            const SizedBox(height: 14),
-            const Text(
-              'Report a bug',
-              style: TextStyle(
-                fontSize: 20,
+              const SizedBox(height: 14),
+              const Text(
+                'Report a bug',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
-            ),
-            const SizedBox(height: 14),
-          ],
+              const SizedBox(height: 14),
+            ],
+          ),
         ),
       ),
     );

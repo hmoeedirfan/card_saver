@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import '../../services/model/boxes/box.dart';
@@ -8,18 +10,24 @@ import '../../widgets/features/login_button.dart';
 import '../home.dart';
 import 'setting_screen.dart';
 
-class AccountScreen extends StatefulWidget {
+class UpdateBusinessScreen extends StatefulWidget {
   final Account currentAccount;
+  final BusinessAccountModel businessData;
 
-  const AccountScreen({super.key, required this.currentAccount});
+  const UpdateBusinessScreen({
+    super.key,
+    required this.currentAccount,
+    required this.businessData,
+  });
 
   @override
-  State<AccountScreen> createState() => _AccountScreenState();
+  State<UpdateBusinessScreen> createState() => _UpdateBusinessScreenState();
 }
 
-class _AccountScreenState extends State<AccountScreen> {
+class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
   String countryValue = "";
   String? mySelection;
+  final formKey = GlobalKey<FormState>();
 
   // List of Banks json
   List<Map> bankJson = [
@@ -161,12 +169,31 @@ class _AccountScreenState extends State<AccountScreen> {
   ];
 
   // List of Controllers
-  final name = TextEditingController();
-  final bankAccount = TextEditingController();
-  final ibanNumber = TextEditingController();
-  final swiftCode = TextEditingController();
-  final branchCode = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  late final TextEditingController name;
+  late final TextEditingController bankAccount;
+  late final TextEditingController ibanNumber;
+  late final TextEditingController swiftCode;
+  late final TextEditingController branchCode;
+
+  @override
+  void initState() {
+    super.initState();
+    name = TextEditingController(
+      text: widget.businessData.name.toString(),
+    );
+    bankAccount = TextEditingController(
+      text: widget.businessData.bankAccount.toString(),
+    );
+    ibanNumber = TextEditingController(
+      text: widget.businessData.ibanNumber.toString(),
+    );
+    swiftCode = TextEditingController(
+      text: widget.businessData.swiftCode.toString(),
+    );
+    branchCode = TextEditingController(
+      text: widget.businessData.branchCode.toString(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -379,8 +406,8 @@ class _AccountScreenState extends State<AccountScreen> {
                                 swiftCode.text,
                                 branchCode.text,
                               );
-                              final box = Boxes.getPersonalData();
-                              box.add(data);
+                              final box = Boxes.getBusinessData();
+                              box.putAt(0, data);
                               data.save();
                             } else {
                               final data = BusinessAccountModel(
@@ -391,7 +418,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 branchCode.text,
                               );
                               final box = Boxes.getBusinessData();
-                              box.add(data);
+                              box.putAt(0, data);
                               data.save();
                             }
                             Navigator.of(context).pop();

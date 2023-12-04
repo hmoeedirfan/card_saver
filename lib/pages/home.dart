@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:material_dialogs/material_dialogs.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import '../services/model/boxes/box.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -11,8 +10,8 @@ import '../widgets/features/custom_button.dart';
 import 'other/account_screen.dart';
 import 'other/setting_screen.dart';
 import 'package:flutter/services.dart';
-
-import 'other/update_screen.dart';
+import 'other/updateBusinessScreen.dart';
+import 'other/updatePersonalScreen.dart';
 
 enum Account {
   Personal,
@@ -42,6 +41,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.onBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -66,12 +66,11 @@ class _HomeState extends State<Home> {
           ),
           IconButton(
             onPressed: () {
-              throw Exception();
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: ((context) => const SettingScreen()),
-              //   ),
-              // );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: ((context) => const SettingScreen()),
+                ),
+              );
             },
             icon: Icon(
               Icons.menu,
@@ -126,8 +125,10 @@ class _HomeState extends State<Home> {
           } else {
             return SingleChildScrollView(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 18,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -237,13 +238,13 @@ class _HomeState extends State<Home> {
                                             children: [
                                               IconButton(
                                                 onPressed: () {
-                                                  // TODO => Update
                                                   Navigator.of(context).push(
                                                       MaterialPageRoute(
                                                           builder: (context) {
-                                                    return const UpdateScreen(
+                                                    return UpdatePersonalScreen(
+                                                      personalData: data[index],
                                                       currentAccount:
-                                                          Account.Business,
+                                                          Account.Personal,
                                                     );
                                                   }));
                                                 },
@@ -257,52 +258,48 @@ class _HomeState extends State<Home> {
                                               ),
                                               IconButton(
                                                 onPressed: () {
-                                                  // TODO
                                                   Dialogs.materialDialog(
-                                                      msg:
-                                                          'Are you sure ? you can\'t undo this action',
-                                                      title: "Delete",
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .background,
-                                                      context: context,
-                                                      actions: [
-                                                        IconsOutlineButton(
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          text: 'Cancel',
-                                                          iconData: Icons
-                                                              .cancel_outlined,
-                                                          textStyle:
-                                                              const TextStyle(
-                                                            color: Colors.white,
-                                                          ),
-                                                          iconColor:
-                                                              Colors.white,
-                                                          color: Colors.grey,
+                                                    msg:
+                                                        'Are you sure ? you can\'t undo this action',
+                                                    title: "Delete",
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onBackground,
+                                                    context: context,
+                                                    actions: [
+                                                      IconsOutlineButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        text: 'Cancel',
+                                                        iconData: Icons
+                                                            .cancel_outlined,
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          color: Colors.white,
                                                         ),
-                                                        IconsOutlineButton(
-                                                          onPressed: () {
-                                                            personalBox
-                                                                .deleteAt(
-                                                                    index);
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          text: 'Delete',
-                                                          iconData:
-                                                              Icons.delete,
-                                                          color: Colors.red,
-                                                          textStyle:
-                                                              const TextStyle(
-                                                            color: Colors.white,
-                                                          ),
-                                                          iconColor:
-                                                              Colors.white,
-                                                        ),
-                                                      ]);
+                                                        iconColor: Colors.white,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      IconsOutlineButton(
+                                                        onPressed: () {
+                                                          personalBox
+                                                              .deleteAt(index);
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        text: 'Delete',
+                                                        iconData: Icons.delete,
+                                                        color: Colors.red,
+                                                        textStyle:
+                                                            const TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                        iconColor: Colors.white,
+                                                      ),
+                                                    ],
+                                                  );
                                                 },
                                                 icon: const Icon(
                                                   Icons.close,
@@ -421,54 +418,83 @@ class _HomeState extends State<Home> {
                                               size: 20,
                                             ),
                                           )
-                                        : IconButton(
-                                            onPressed: () {
-                                              // TODO
-                                              Dialogs.materialDialog(
-                                                  msg:
-                                                      'Are you sure ? you can\'t undo this action',
-                                                  title: "Delete",
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                  context: context,
-                                                  actions: [
-                                                    IconsOutlineButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
+                                        : Row(
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (context) {
+                                                        return UpdateBusinessScreen(
+                                                          businessData:
+                                                              data[index],
+                                                          currentAccount:
+                                                              Account.Business,
+                                                        );
                                                       },
-                                                      text: 'Cancel',
-                                                      iconData:
-                                                          Icons.cancel_outlined,
-                                                      textStyle:
-                                                          const TextStyle(
-                                                        color: Colors.white,
-                                                      ),
-                                                      iconColor: Colors.white,
-                                                      color: Colors.grey,
                                                     ),
-                                                    IconsButton(
-                                                      onPressed: () {
-                                                        businessBox
-                                                            .deleteAt(index);
-                                                        Navigator.pop(context);
-                                                      },
-                                                      text: 'Delete',
-                                                      iconData: Icons.delete,
-                                                      color: Colors.red,
-                                                      textStyle:
-                                                          const TextStyle(
-                                                        color: Colors.white,
+                                                  );
+                                                },
+                                                padding: EdgeInsets.zero,
+                                                constraints:
+                                                    const BoxConstraints(),
+                                                icon: const Icon(
+                                                  Icons.edit,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  Dialogs.materialDialog(
+                                                    msg:
+                                                        'Are you sure ? you can\'t undo this action',
+                                                    title: "Delete",
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onBackground,
+                                                    context: context,
+                                                    actions: [
+                                                      IconsOutlineButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        text: 'Cancel',
+                                                        iconData: Icons
+                                                            .cancel_outlined,
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          color: Colors.white,
+                                                        ),
+                                                        iconColor: Colors.white,
+                                                        color: Colors.grey,
                                                       ),
-                                                      iconColor: Colors.white,
-                                                    ),
-                                                  ]);
-                                            },
-                                            icon: const Icon(
-                                              Icons.close,
-                                              color: Colors.red,
-                                              size: 20,
-                                            ),
+                                                      IconsOutlineButton(
+                                                        onPressed: () {
+                                                          businessBox
+                                                              .deleteAt(index);
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        text: 'Delete',
+                                                        iconData: Icons.delete,
+                                                        color: Colors.red,
+                                                        textStyle:
+                                                            const TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                        iconColor: Colors.white,
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                                icon: const Icon(
+                                                  Icons.close,
+                                                  color: Colors.red,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                   ],
                                 ),
@@ -483,53 +509,6 @@ class _HomeState extends State<Home> {
           }
         },
       ),
-    );
-  }
-}
-
-// Edit Icons
-class editIcons extends StatelessWidget {
-  final Account currentaccountType;
-  const editIcons({super.key, required this.currentaccountType});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        IconButton(
-          onPressed: () {
-            Dialogs.materialDialog(
-                msg: 'Are you sure ? you can\'t undo this action',
-                title: "Delete",
-                color: Colors.white,
-                context: context,
-                actions: [
-                  IconsOutlineButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    text: 'Cancel',
-                    iconData: Icons.cancel_outlined,
-                    textStyle: const TextStyle(color: Colors.grey),
-                    iconColor: Colors.grey,
-                  ),
-                  IconsButton(
-                    onPressed: () {},
-                    text: 'Delete',
-                    iconData: Icons.delete,
-                    color: Colors.red,
-                    textStyle: const TextStyle(color: Colors.white),
-                    iconColor: Colors.white,
-                  ),
-                ]);
-          },
-          icon: const Icon(
-            Icons.close,
-            color: Colors.red,
-            size: 20,
-          ),
-        ),
-      ],
     );
   }
 }

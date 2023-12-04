@@ -1,4 +1,5 @@
 import 'package:card_saver/firebase_options.dart';
+import 'package:card_saver/services/api/firebase_api.dart';
 import 'package:card_saver/services/settings/darktheme/model/theme_changer.dart';
 import 'package:card_saver/services/settings/darktheme/styles.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -16,16 +17,15 @@ Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  await FirebaseApi().initNotifications();
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  
   // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-  
+
   // Initialize Hive
   var directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);

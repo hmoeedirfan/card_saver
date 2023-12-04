@@ -10,8 +10,10 @@ class loginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.symmetric(
+        vertical: 16,
+      ),
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(50),
@@ -21,7 +23,7 @@ class loginButton extends StatelessWidget {
         child: Text(
           text,
           style: const TextStyle(
-            fontSize: 18,
+            fontSize: 20,
             letterSpacing: 1,
             color: Colors.white,
           ),
