@@ -18,7 +18,7 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20),
       child: TextFormField(
         validator: validator,
-        style: const TextStyle(fontSize: 18),
+        style: const TextStyle(fontSize: 16),
         controller: controller,
         textAlign: TextAlign.left,
         decoration: InputDecoration(

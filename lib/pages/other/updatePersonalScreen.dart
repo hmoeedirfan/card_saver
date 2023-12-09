@@ -280,12 +280,7 @@ class _UpdatePersonalScreenState extends State<UpdatePersonalScreen> {
                 const SizedBox(height: 10),
                 // ====================================== Bank Dropdown
                 Container(
-                  padding: const EdgeInsets.only(
-                    right: 4,
-                    top: 12,
-                    bottom: 12,
-                    left: 2,
-                  ),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     border: Border.all(
                       width: 1,
@@ -294,19 +289,22 @@ class _UpdatePersonalScreenState extends State<UpdatePersonalScreen> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(
                         child: DropdownButtonHideUnderline(
                           child: ButtonTheme(
-                            alignedDropdown: true,
+                            alignedDropdown: false,
                             child: DropdownButton<String>(
                               isDense: true,
-                              hint: const Text('Select your Bank'),
+                              hint: const Text(
+                                'Select your Bank',
+                              ),
                               value: mySelection,
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.expand_more_sharp,
                                 textDirection: TextDirection.rtl,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                               onChanged: (newValue) {
                                 setState(() {
@@ -323,14 +321,12 @@ class _UpdatePersonalScreenState extends State<UpdatePersonalScreen> {
                                     children: [
                                       Image.asset(
                                         map["image"],
-                                        width: 30,
+                                        width: 24,
                                       ),
-                                      Container(
-                                        margin: const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          map["name"],
-                                          style: const TextStyle(fontSize: 18),
-                                        ),
+                                      const SizedBox(width: 12),
+                                      Text(
+                                        map["name"],
+                                        style: const TextStyle(fontSize: 16),
                                       ),
                                     ],
                                   ),

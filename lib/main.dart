@@ -12,19 +12,25 @@ import 'pages/splash_screen.dart';
 import 'services/model/models/businessaccount_model.dart';
 import 'services/model/models/personalaccount_model.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FirebaseApi().initNotifications();
+
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
   // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   // Initialize Hive
   var directory = await getApplicationDocumentsDirectory();
@@ -34,6 +40,8 @@ Future<void> main(List<String> args) async {
   Hive.registerAdapter(BusinessAccountModelAdapter());
   await Hive.openBox('personalaccount');
   await Hive.openBox('businessaccount');
+
+  // Run the app
   runApp(const MyApp());
 }
 
