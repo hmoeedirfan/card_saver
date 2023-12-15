@@ -24,6 +24,14 @@ class PersonalAccountModel extends HiveObject {
 
   @override
   String toString() {
-    return 'Name: $name\n, Bank Account: $bankAccount\n, Iban Number: $ibanNumber\n, Swift Code: $swiftCode\n, Branch Code: $branchCode\n';
+    if (ibanNumber == '' && swiftCode == '' && branchCode == '') {
+      return 'Name: $name\nBank Account: $bankAccount\n';
+    } else if (swiftCode == '' && branchCode == '') {
+      return 'Name: $name\nBank Account: $bankAccount\nIban Number: $ibanNumber\n';
+    } else if (branchCode == '') {
+      return 'Name: $name\nBank Account: $bankAccount\nIban Number: $ibanNumber\nSwift Code: $swiftCode\n';
+    } else {
+      return 'Name: $name\nBank Account: $bankAccount\nIban Number: $ibanNumber\nSwift Code: $swiftCode\nBranch Code: $branchCode\n';
+    }
   }
 }
