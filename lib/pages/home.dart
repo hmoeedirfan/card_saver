@@ -178,138 +178,161 @@ class _HomeState extends State<Home> {
                             shrinkWrap: true,
                             itemCount: box.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                padding: const EdgeInsets.only(left: 16),
-                                margin: const EdgeInsets.only(bottom: 20),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            'assets/images/hbl_logo.png',
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            data[index].name.toString(),
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ],
+                              return GestureDetector(
+                                onTap: () async {
+                                  await Clipboard.setData(
+                                    ClipboardData(
+                                      text: data[index].toString(),
+                                    ),
+                                  );
+                                  print(data[index].toString());
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        "Copied to your clipboard !",
                                       ),
                                     ),
-                                    isAppBarToggled
-                                        ? IconButton(
-                                            onPressed: () async {
-                                              await Clipboard.setData(
-                                                ClipboardData(
-                                                  text: data[index].toString(),
-                                                ),
-                                              );
-                                              print(data[index].toString());
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                    "Copied to your clipboard !",
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(left: 16),
+                                  margin: const EdgeInsets.only(bottom: 20),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Expanded(
+                                        child: Row(
+                                          children: [
+                                            Image.asset(
+                                              'assets/images/hbl_logo.png',
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Text(
+                                              data[index].name.toString(),
+                                              style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      isAppBarToggled
+                                          ? IconButton(
+                                              onPressed: () async {
+                                                await Clipboard.setData(
+                                                  ClipboardData(
+                                                    text:
+                                                        data[index].toString(),
+                                                  ),
+                                                );
+                                                print(data[index].toString());
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text(
+                                                      "Copied to your clipboard !",
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              icon: const Icon(
+                                                Icons.copy,
+                                                size: 20,
+                                              ),
+                                            )
+                                          : Row(
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).push(
+                                                        MaterialPageRoute(
+                                                            builder: (context) {
+                                                      return UpdatePersonalScreen(
+                                                        personalData:
+                                                            data[index],
+                                                        currentAccount:
+                                                            Account.Personal,
+                                                      );
+                                                    }));
+                                                  },
+                                                  padding: EdgeInsets.zero,
+                                                  constraints:
+                                                      const BoxConstraints(),
+                                                  icon: const Icon(
+                                                    Icons.edit,
+                                                    size: 20,
                                                   ),
                                                 ),
-                                              );
-                                            },
-                                            icon: const Icon(
-                                              Icons.copy,
-                                              size: 20,
-                                            ),
-                                          )
-                                        : Row(
-                                            children: [
-                                              IconButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                          builder: (context) {
-                                                    return UpdatePersonalScreen(
-                                                      personalData: data[index],
-                                                      currentAccount:
-                                                          Account.Personal,
-                                                    );
-                                                  }));
-                                                },
-                                                padding: EdgeInsets.zero,
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                icon: const Icon(
-                                                  Icons.edit,
-                                                  size: 20,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                onPressed: () {
-                                                  Dialogs.materialDialog(
-                                                    msg:
-                                                        'Are you sure ? you can\'t undo this action',
-                                                    title: "Delete",
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onBackground,
-                                                    context: context,
-                                                    actions: [
-                                                      IconsOutlineButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        text: 'Cancel',
-                                                        iconData: Icons
-                                                            .cancel_outlined,
-                                                        textStyle:
-                                                            const TextStyle(
-                                                          color: Colors.white,
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Dialogs.materialDialog(
+                                                      msg:
+                                                          'Are you sure ? you can\'t undo this action',
+                                                      title: "Delete",
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onBackground,
+                                                      context: context,
+                                                      actions: [
+                                                        IconsOutlineButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          text: 'Cancel',
+                                                          iconData: Icons
+                                                              .cancel_outlined,
+                                                          textStyle:
+                                                              const TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                          iconColor:
+                                                              Colors.white,
+                                                          color: Colors.grey,
                                                         ),
-                                                        iconColor: Colors.white,
-                                                        color: Colors.grey,
-                                                      ),
-                                                      IconsOutlineButton(
-                                                        onPressed: () {
-                                                          personalBox
-                                                              .deleteAt(index);
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        text: 'Delete',
-                                                        iconData: Icons.delete,
-                                                        color: Colors.red,
-                                                        textStyle:
-                                                            const TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                        iconColor: Colors.white,
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                                icon: const Icon(
-                                                  Icons.close,
-                                                  color: Colors.red,
-                                                  size: 20,
+                                                        IconsOutlineButton(
+                                                          onPressed: () {
+                                                            personalBox
+                                                                .deleteAt(
+                                                                    index);
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          text: 'Delete',
+                                                          iconData:
+                                                              Icons.delete,
+                                                          color: Colors.red,
+                                                          textStyle:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                          iconColor:
+                                                              Colors.white,
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.close,
+                                                    color: Colors.red,
+                                                    size: 20,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                  ],
+                                              ],
+                                            ),
+                                    ],
+                                  ),
                                 ),
                               );
                             },
@@ -362,141 +385,164 @@ class _HomeState extends State<Home> {
                             shrinkWrap: true,
                             itemCount: box.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                padding: const EdgeInsets.only(left: 16),
-                                margin: const EdgeInsets.only(bottom: 20),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            'assets/images/hbl_logo.png',
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            data[index].name.toString(),
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ],
+                              return GestureDetector(
+                                onTap: () async {
+                                  await Clipboard.setData(
+                                    ClipboardData(
+                                      text: data[index].toString(),
+                                    ),
+                                  );
+                                  print(data[index].toString());
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        "Copied to your clipboard !",
                                       ),
                                     ),
-                                    isAppBarToggled
-                                        ? IconButton(
-                                            onPressed: () async {
-                                              await Clipboard.setData(
-                                                ClipboardData(
-                                                  text: data[index].toString(),
-                                                ),
-                                              );
-                                              print(data[index].toString());
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                    "Copied to your clipboard !",
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(left: 16),
+                                  margin: const EdgeInsets.only(bottom: 20),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Expanded(
+                                        child: Row(
+                                          children: [
+                                            Image.asset(
+                                              'assets/images/hbl_logo.png',
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Text(
+                                              data[index].name.toString(),
+                                              style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      isAppBarToggled
+                                          ? IconButton(
+                                              onPressed: () async {
+                                                await Clipboard.setData(
+                                                  ClipboardData(
+                                                    text:
+                                                        data[index].toString(),
+                                                  ),
+                                                );
+                                                print(data[index].toString());
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text(
+                                                      "Copied to your clipboard !",
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              icon: const Icon(
+                                                Icons.copy,
+                                                size: 20,
+                                              ),
+                                            )
+                                          : Row(
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (context) {
+                                                          return UpdateBusinessScreen(
+                                                            businessData:
+                                                                data[index],
+                                                            currentAccount:
+                                                                Account
+                                                                    .Business,
+                                                          );
+                                                        },
+                                                      ),
+                                                    );
+                                                  },
+                                                  padding: EdgeInsets.zero,
+                                                  constraints:
+                                                      const BoxConstraints(),
+                                                  icon: const Icon(
+                                                    Icons.edit,
+                                                    size: 20,
                                                   ),
                                                 ),
-                                              );
-                                            },
-                                            icon: const Icon(
-                                              Icons.copy,
-                                              size: 20,
-                                            ),
-                                          )
-                                        : Row(
-                                            children: [
-                                              IconButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return UpdateBusinessScreen(
-                                                          businessData:
-                                                              data[index],
-                                                          currentAccount:
-                                                              Account.Business,
-                                                        );
-                                                      },
-                                                    ),
-                                                  );
-                                                },
-                                                padding: EdgeInsets.zero,
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                icon: const Icon(
-                                                  Icons.edit,
-                                                  size: 20,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                onPressed: () {
-                                                  Dialogs.materialDialog(
-                                                    msg:
-                                                        'Are you sure ? you can\'t undo this action',
-                                                    title: "Delete",
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onBackground,
-                                                    context: context,
-                                                    actions: [
-                                                      IconsOutlineButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        text: 'Cancel',
-                                                        iconData: Icons
-                                                            .cancel_outlined,
-                                                        textStyle:
-                                                            const TextStyle(
-                                                          color: Colors.white,
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Dialogs.materialDialog(
+                                                      msg:
+                                                          'Are you sure ? you can\'t undo this action',
+                                                      title: "Delete",
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onBackground,
+                                                      context: context,
+                                                      actions: [
+                                                        IconsOutlineButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          text: 'Cancel',
+                                                          iconData: Icons
+                                                              .cancel_outlined,
+                                                          textStyle:
+                                                              const TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                          iconColor:
+                                                              Colors.white,
+                                                          color: Colors.grey,
                                                         ),
-                                                        iconColor: Colors.white,
-                                                        color: Colors.grey,
-                                                      ),
-                                                      IconsOutlineButton(
-                                                        onPressed: () {
-                                                          businessBox
-                                                              .deleteAt(index);
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        text: 'Delete',
-                                                        iconData: Icons.delete,
-                                                        color: Colors.red,
-                                                        textStyle:
-                                                            const TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                        iconColor: Colors.white,
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                                icon: const Icon(
-                                                  Icons.close,
-                                                  color: Colors.red,
-                                                  size: 20,
+                                                        IconsOutlineButton(
+                                                          onPressed: () {
+                                                            businessBox
+                                                                .deleteAt(
+                                                                    index);
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          text: 'Delete',
+                                                          iconData:
+                                                              Icons.delete,
+                                                          color: Colors.red,
+                                                          textStyle:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                          iconColor:
+                                                              Colors.white,
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.close,
+                                                    color: Colors.red,
+                                                    size: 20,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                  ],
+                                              ],
+                                            ),
+                                    ],
+                                  ),
                                 ),
                               );
                             },
