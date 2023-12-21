@@ -37,12 +37,26 @@ class _HomeState extends State<Home> {
   var personalBox = Boxes.getPersonalData();
   var businessBox = Boxes.getBusinessData();
   bool isAppBarToggled = true;
+  Brightness? brightness;
+
+  SystemUiOverlayStyle get systemUiOverlayStyle {
+    return SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+      statusBarBrightness: brightness,
+      statusBarIconBrightness:
+          brightness == Brightness.light ? Brightness.light : Brightness.dark,
+      systemNavigationBarIconBrightness:
+          brightness == Brightness.light ? Brightness.light : Brightness.dark,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onBackground,
       appBar: AppBar(
+        systemOverlayStyle: systemUiOverlayStyle,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leadingWidth: 80,

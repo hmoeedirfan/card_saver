@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../services/settings/darktheme/model/theme_changer.dart';
 import '../../widgets/features/custom_switch.dart';
@@ -11,6 +12,20 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
+  Brightness? brightness;
+
+  SystemUiOverlayStyle get systemUiOverlayStyle {
+    return SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+      statusBarBrightness: brightness,
+      statusBarIconBrightness:
+          brightness == Brightness.light ? Brightness.light : Brightness.dark,
+      systemNavigationBarIconBrightness:
+          brightness == Brightness.light ? Brightness.light : Brightness.dark,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<ThemeChanger>(context);
@@ -20,6 +35,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
       // Appbar
       appBar: AppBar(
+        systemOverlayStyle: systemUiOverlayStyle,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leadingWidth: 80,
