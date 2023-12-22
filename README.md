@@ -1,16 +1,8 @@
-# card_saver
+# bankBoard
 
-A new Flutter project.
+A new Flutter project, It's a simple local database app that stores multiple bank card information. 
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## You can have a look on its UI 
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://www.figma.com/proto/WnYZG9ZRuMlZ1Kuualspyy/Bankboard?type=design&node-id=1-58&t=NPVEW9a2S3Soalqr-1&scaling=scale-down&page-id=0%3A1&starting-point-node-id=1%3A58&show-proto-sidebar=1&mode=design
